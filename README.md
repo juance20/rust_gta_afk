@@ -6,6 +6,7 @@ Un programa simple que evita la detección de AFK en GTA Online
 
 ## Features
 
+- Detección automática de inactividad
 - Corre en segundo plano
 - Ligero
 - Optimizado

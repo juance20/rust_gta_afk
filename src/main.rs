@@ -3,10 +3,20 @@
 use rdev::{listen, simulate, Button, Event, EventType, Key};
 use std::{thread, time};
 use notify_rust::Notification;
+use tray_icon::{Icon, TrayIconBuilder};
 
 static mut AFK_TIME: i32 = 0;
 
 fn main() {
+
+    let icono: Icon = Icon::from_path(std::path::Path::new("C:/Users/juan/Desktop/Informática/Programacion/rust_gta_afk/target/debug/icon.ico"), None).ok().unwrap();
+
+    let _tray_icon = TrayIconBuilder::new()
+        .with_tooltip("Anti-AFK")
+        .with_icon(icono)
+        .with_menu_on_left_click(true)
+        .build()
+        .unwrap();
 
     let _ = Notification::new()
     .summary("Modo de uso")
@@ -41,11 +51,7 @@ fn listener(event: Event) {
         return;
     }
     else {        
-        let _ = Notification::new()
-        .body("Proceso terminado")
-        .show();
-        std::process::exit(0);
-
+        terminar();
     }
 }
 
@@ -53,4 +59,11 @@ fn send(event_type: &EventType) {
     let delay = time::Duration::from_millis(20);
     let _ = simulate(event_type);
     thread::sleep(delay);
+}
+
+fn terminar(){
+    let _ = Notification::new()
+    .body("Proceso terminado")
+    .show();
+    std::process::exit(0);
 }

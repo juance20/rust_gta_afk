@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 rdev = { git = "https://github.com/Narsil/rdev.git", branch = "main" }
 notify-rust = { git = "https://github.com/hoodie/notify-rust.git", branch = "main"}
+tray-icon = "0.11.2"

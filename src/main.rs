@@ -1,7 +1,7 @@
 #![windows_subsystem = "windows"]
 
 use rdev::{listen, simulate, Button, Event, EventType, Key};
-use std::{os::windows::process, thread, time};
+use std::{thread, time};
 use notify_rust::Notification;
 
 static mut RUNNING: bool = false;

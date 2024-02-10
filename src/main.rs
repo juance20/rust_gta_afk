@@ -26,8 +26,8 @@ fn main() {
                 send(&EventType::ButtonPress(Button::Right));
                 thread::sleep(time::Duration::from_millis(200));
                 send(&EventType::ButtonRelease(Button::Right));
-                thread::sleep(time::Duration::from_secs(2));
             }
+            thread::sleep(time::Duration::from_secs(1));
         }
     });
 
@@ -37,11 +37,15 @@ fn main() {
 fn listener(event: Event) {
     let ev: EventType = event.event_type;
     unsafe { AFK_TIME = 0 };
-    if ev == EventType::KeyPress(Key::F12) {
-        let _ =Notification::new()
+    if ev != EventType::KeyPress(Key::F12) {
+        return;
+    }
+    else {        
+        let _ = Notification::new()
         .body("Proceso terminado")
         .show();
         std::process::exit(0);
+
     }
 }
 

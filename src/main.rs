@@ -4,23 +4,30 @@ use rdev::{listen, simulate, Button, Event, EventType, Key};
 use std::{thread, time};
 use notify_rust::Notification;
 
-static mut RUNNING: bool = false;
+static mut AFK_TIME: i32 = 0;
 
 fn main() {
 
     let _ = Notification::new()
     .summary("Modo de uso")
-    .body("F9: Pausar\nF10: Iniciar\nF12: Terminar")
+    .body("Actuará automáticamente cuando se detecte inactividad\nF12: Terminar")
     .show();
 
     thread::spawn(|| {
         loop {
-            if unsafe { RUNNING } == true{
+            unsafe { AFK_TIME = AFK_TIME + 1 };
+            thread::sleep(time::Duration::from_secs(1));
+        }
+    });
+
+    thread::spawn(|| {
+        loop {
+            if unsafe { AFK_TIME >= 70 } {
                 send(&EventType::ButtonPress(Button::Right));
                 thread::sleep(time::Duration::from_millis(200));
                 send(&EventType::ButtonRelease(Button::Right));
+                thread::sleep(time::Duration::from_secs(2));
             }
-            thread::sleep(time::Duration::from_secs(2));
         }
     });
 
@@ -29,12 +36,7 @@ fn main() {
 
 fn listener(event: Event) {
     let ev: EventType = event.event_type;
-    if ev == EventType::KeyPress(Key::F9) {
-        unsafe { RUNNING = false };
-    }
-    if ev == EventType::KeyPress(Key::F10) {
-        unsafe { RUNNING = true };
-    }
+    unsafe { AFK_TIME = 0 };
     if ev == EventType::KeyPress(Key::F12) {
         let _ =Notification::new()
         .body("Proceso terminado")

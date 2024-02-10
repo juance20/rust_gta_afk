@@ -1,0 +1,10 @@
+[package]
+name = "rust_gta_afk"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rdev = { git = "https://github.com/Narsil/rdev.git", branch = "main" }
+notify-rust = { git = "https://github.com/hoodie/notify-rust.git", branch = "main"}

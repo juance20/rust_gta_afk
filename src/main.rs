@@ -3,18 +3,22 @@
 use rdev::{listen, simulate, Button, Event, EventType, Key};
 use std::{thread, time};
 use notify_rust::Notification;
-use tray_icon::{Icon, TrayIconBuilder};
+use tray_icon::{menu::{Menu, PredefinedMenuItem}, Icon, TrayIcon, TrayIconBuilder};
 
 static mut AFK_TIME: i32 = 0;
 
 fn main() {
-
+    println!("dwajkv dkwajvd");
     let icono: Icon = Icon::from_path(std::path::Path::new("C:/Users/juan/Desktop/Informática/Programacion/rust_gta_afk/target/debug/icon.ico"), None).ok().unwrap();
 
-    let _tray_icon = TrayIconBuilder::new()
+    let my_menu: Menu = Menu::new();
+
+    let _ = my_menu.append(&PredefinedMenuItem::quit(Some("Terminar")));
+
+    let _tray_icon: TrayIcon = TrayIconBuilder::new()
         .with_tooltip("Anti-AFK")
         .with_icon(icono)
-        .with_menu_on_left_click(true)
+        .with_menu(Box::new(my_menu))
         .build()
         .unwrap();
 
@@ -41,7 +45,9 @@ fn main() {
         }
     });
 
-    let _ = listen(listener);
+    if let Err(error) = listen(listener) {
+        println!("Error: {:?}", error);
+    }
 }
 
 fn listener(event: Event) {

@@ -8,7 +8,6 @@ use tray_icon::{menu::{Menu, PredefinedMenuItem}, Icon, TrayIcon, TrayIconBuilde
 static mut AFK_TIME: i32 = 0;
 
 fn main() {
-    println!("dwajkv dkwajvd");
     let icono: Icon = Icon::from_path(std::path::Path::new("C:/Users/juan/Desktop/Informática/Programacion/rust_gta_afk/target/debug/icon.ico"), None).ok().unwrap();
 
     let my_menu: Menu = Menu::new();
